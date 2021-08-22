@@ -1,0 +1,2 @@
+rootProject.name = "RetrofitWithCoroutine_U_Test"
+include ':app'
