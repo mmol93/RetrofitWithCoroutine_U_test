@@ -12,6 +12,7 @@ import com.example.retrofitwithcoroutine_u_test.databinding.ActivityMainBinding
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var retrofitService : AlbumService
     private lateinit var binder : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,18 +20,21 @@ class MainActivity : AppCompatActivity() {
 
         // make RetrofitService instance
         // get a JSON data with BASE_URL, End point and GSON Converter
-        val retrofitService = RetrofitInstance.getRetrofitInstance().create(AlbumService::class.java)
+        retrofitService = RetrofitInstance.getRetrofitInstance().create(AlbumService::class.java)
 
-        // get data with @Path = find data with Album's Id
-        val pathResponse : LiveData<Response<AlbumsItem>> = liveData {
-            val response = retrofitService.getAlbum(3)
-            emit(response)
-        }
-        pathResponse.observe(this, Observer {
-            val title = it.body()?.title
-            Toast.makeText(this, "title from path: $title", Toast.LENGTH_LONG).show()
-        })
+//        // get data with @Path = find data with Album's Id
+//        val pathResponse : LiveData<Response<AlbumsItem>> = liveData {
+//            val response = retrofitService.getAlbum(3)
+//            emit(response)
+//        }
+//        pathResponse.observe(this, Observer {
+//            val title = it.body()?.title
+//            Toast.makeText(this, "title from path: $title", Toast.LENGTH_LONG).show()
+//        })
+        getRequestWithQueryParameters()
+    }
 
+    private fun getRequestWithQueryParameters(){
         // get data from album = find data with Album's userId
         val responseLiveData = liveData {
             val response = retrofitService.getSortedAlbums(3)
